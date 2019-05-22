@@ -16,12 +16,16 @@ import java.util.List;
 
 @Service
 public class GoodsService {
+
     @Resource
     private GoodsDAO goodsDAO;
+
     @Resource
     private GoodsCoverDAO goodsCoverDAO;
+
     @Resource
     private GoodsDetailDAO goodsDetailDAO;
+
     @Resource
     private GoodsParamDAO goodsParamDAO;
     //view -> controller -> service -> dao
@@ -38,10 +42,12 @@ public class GoodsService {
     public List<GoodsCover> findCovers(Long goodsId){
         return goodsCoverDAO.findByGoodsId(goodsId);
     }
+
     @Cacheable(value="details" , key = "#goodsId")
     public List<GoodsDetail> findDetails(Long goodsId){
         return  goodsDetailDAO.findByGoodsId(goodsId);
     }
+
     @Cacheable(value="params" , key = "#goodsId")
     public List<GoodsParam> findParams(Long goodsId){
         List list =  goodsParamDAO.findByGoodsId(goodsId);

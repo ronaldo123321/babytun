@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  */
 @SpringBootApplication
-@MapperScan("com.itlaoqi.babytun") //mybatis在SpringBoot启动的时候自动扫描mybatis实现的接口
+@MapperScan("com.itlaoqi.babytun")
 @EnableScheduling//自动任务调度
 public class BabytunApplication {
 	public static void main(String[] args) {

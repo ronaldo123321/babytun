@@ -70,6 +70,7 @@ public class GoodsController {
     @GetMapping("/Static_All")
     @ResponseBody
     public String doStatic1() throws Exception{
+
         Template template = freemarkerConfig.getTemplate("goods.ftl");
         List<Goods> list = goodsService.findAllGoods();
         list.stream().forEach(good  -> {

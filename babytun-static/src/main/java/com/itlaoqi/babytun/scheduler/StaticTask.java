@@ -17,13 +17,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 任务调用执行类  每隔5分钟轮询相应数据库，将增量数据利用页面静态化技术
+ * 重新生成对应静态页面存入文件夹
+ */
 @Component //组件类，IOC容器扫描到后会自动实例化加载
 public class StaticTask {
+
     @Resource
     private GoodsService goodsService;
+
     @Resource
     private Configuration freemarkerConfig;
-    //public void  xxx(){}
+
     //* * * * * ? 每秒钟执行一次
     //秒 分 小时 日 月 星期
     //* 代表所有时间

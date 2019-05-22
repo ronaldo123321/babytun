@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @MapperScan("com.itlaoqi.babytun") //mybatis在SpringBoot启动的时候自动扫描mybatis实现的接口
 @EnableCaching //开启声明式缓存，利用注解来控制缓存的读写
 public class BabytunApplication {
+
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate redisTemplate = new RedisTemplate();
@@ -24,6 +25,7 @@ public class BabytunApplication {
 		redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
 		return redisTemplate;
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(BabytunApplication.class, args);
 	}

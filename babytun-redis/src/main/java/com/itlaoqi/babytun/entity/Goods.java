@@ -2,6 +2,7 @@ package com.itlaoqi.babytun.entity;
 
 import java.io.Serializable;
 
+
 public class Goods implements Serializable{
     private Long goodsId;
     private String title;
