@@ -164,9 +164,10 @@
 
         var $ = layer.$;
         $("#btnSecKill").click(function () {
+            //模拟抢购用户
             $.getJSON("/seckill?psid=1&userid=u002",function (json) {
                 if(json.code == "0"){
-                    alert("贡献你，得到抢购的资格，快去下单吧！")
+                    alert("恭喜你，得到抢购的资格，快去下单吧！")
                 }else {
                     alert(json.message);
                 }

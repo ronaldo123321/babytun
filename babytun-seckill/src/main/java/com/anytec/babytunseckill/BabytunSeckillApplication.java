@@ -19,12 +19,13 @@ public class BabytunSeckillApplication {
         SpringApplication.run(BabytunSeckillApplication.class, args);
     }
 
+    //配置redis的序列化方式
     @Bean
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        //设置value的序列化方式为JSOn
+        //设置value的序列化方式为Json
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         //设置key的序列化方式为String
         redisTemplate.setKeySerializer(new StringRedisSerializer());

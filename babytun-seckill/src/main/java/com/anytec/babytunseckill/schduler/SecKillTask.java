@@ -18,12 +18,13 @@ public class SecKillTask {
      @Resource
      private RedisTemplate redisTemplate;
 
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void startSecKill(){
+
+     @Scheduled(cron = "0/5 * * * * ?")
+     public void startSecKill(){
 
          List<PromotionSecKill> list = promotionSecKillDAO.findUnstartSecKill();
          for(PromotionSecKill ps: list){
-             System.out.println("秒杀活动已启动" + ps.getPsId());
+             System.out.println("秒杀活动已启动,psId=" + ps.getPsId());
              //删除掉以前重复活动缓存任务
              redisTemplate.delete("seckill:count:"+ ps.getPsId());
              //有几个库存商品，则初始化几个list对象
@@ -35,10 +36,10 @@ public class SecKillTask {
          }
 
 
-    }
+     }
 
-    @Scheduled(cron = "0/5 * * * * ?")
-    public  void  endSeckill(){
+     @Scheduled(cron = "0/5 * * * * ?")
+     public  void  endSeckill(){
         List<PromotionSecKill> psList = promotionSecKillDAO.findExpireSecKill();
         for (PromotionSecKill ps: psList) {
             System.out.println(ps.getPsId() + "秒杀活动已结束");
@@ -46,5 +47,5 @@ public class SecKillTask {
             promotionSecKillDAO.update(ps);
             redisTemplate.delete("seckill:count:"+ps.getPsId());
         }
-    }
+     }
 }

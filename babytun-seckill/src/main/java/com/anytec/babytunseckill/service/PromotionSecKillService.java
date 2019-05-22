@@ -19,27 +19,35 @@ public class PromotionSecKillService {
 
     public void processSecKill(Long psId,String userId,Integer num) throws SecKillException {
 
-        PromotionSecKill ps = promotionSecKillDAO.findById(psId);
-        if(ps.getStatus() == 0){
+         PromotionSecKill ps = promotionSecKillDAO.findById(psId);
+         if(ps.getStatus() == 0){
             throw  new SecKillException("秒杀活动还未开始");
-        }else if(ps.getStatus() == 2){
+         }else if(ps.getStatus() == 2){
             throw  new SecKillException("秒杀活动已经结束");
-        } else if(ps == null){
+         } else if(ps == null){
             throw new SecKillException("秒杀活动不存在！");
-        }
+         }
+
+         //此处两种处理逻辑，先进行前置判断，若用户已抢购则返回。第二种先进行抢购活动，再判断后做补偿操作，重新添加商品数据到队列。
+         boolean isExisted = redisTemplate.opsForSet().isMember("seckill:users:"+ps.getPsId(),userId);
+
+         if(isExisted){
+            throw new SecKillException("抱歉，您已经参加过此活动了~");
+         }
 
          Integer goodsId = (Integer) redisTemplate.opsForList().leftPop("seckill:count:"+ps.getPsId());
          if(goodsId != null){
 
-             boolean isExisted = redisTemplate.opsForSet().isMember("seckill:users:"+ps.getPsId(),userId);
-             if(!isExisted){
-                 System.out.println("恭喜,"+userId+"，抢到商品了。");
-                 redisTemplate.opsForSet().add("seckill:users:"+ps.getPsId(),userId);
-             }else {
-                 //做补偿操作，重新将商品数据添加到队列尾部
-                 redisTemplate.opsForList().rightPush("seckill:count:"+ps.getPsId(),ps.getGoodsId());
-                 throw new SecKillException("抱歉，您已经参加过此活动了~");
-             }
+             System.out.println("恭喜,"+userId+"，抢到商品了。");
+             redisTemplate.opsForSet().add("seckill:users:"+ps.getPsId(),userId);
+//             if(!isExisted){
+//                 System.out.println("恭喜,"+userId+"，抢到商品了。");
+//                 redisTemplate.opsForSet().add("seckill:users:"+ps.getPsId(),userId);
+//             }else {
+//                 //做补偿操作，重新将商品数据添加到队列尾部
+//                 redisTemplate.opsForList().rightPush("seckill:count:"+ps.getPsId(),ps.getGoodsId());
+//                 throw new SecKillException("抱歉，您已经参加过此活动了~");
+//             }
          } else {
              throw new SecKillException("抱歉该商品已经被抢光了，请下次再来~");
          }
