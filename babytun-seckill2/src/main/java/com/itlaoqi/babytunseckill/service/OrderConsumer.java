@@ -18,9 +18,11 @@ import java.util.Map;
 
 @Component
 public class OrderConsumer {
+
     @Resource
     private OrderDAO orderDAO;
 
+    //绑定交换机与队列，这里只是模拟处理订单过程
     @RabbitListener(
             bindings = @QueueBinding(
                     value = @Queue(value = "queue-order") ,
@@ -35,7 +37,7 @@ public class OrderConsumer {
         try {
             //对接支付宝、对接物流系统、日志登记。。。。
             try {
-                Thread.sleep(10000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -45,8 +47,8 @@ public class OrderConsumer {
             order.setOrderStatus(0);
             order.setUserid(data.get("userid").toString());
             order.setRecvName("xxx");
-            order.setRecvMobile("1393310xxxx");
-            order.setRecvAddress("xxxxxxxxxx");
+            order.setRecvMobile("13933107921");
+            order.setRecvAddress("北京");
             order.setAmout(19.8f);
             order.setPostage(0f);
             order.setCreateTime(new Date());
