@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anytec.babytun.dao.GoodsDAO">
+    <select id="findById" parameterType="Long" resultType="com.anytec.babytun.entity.Goods">
+        select * from t_goods where goods_id = #{value}
+    </select>
+</mapper>
